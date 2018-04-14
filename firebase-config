@@ -1,0 +1,13 @@
+<script src="https://www.gstatic.com/firebasejs/4.12.1/firebase.js"></script>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyBgecMikzTabOOsdvP7RQzREmTDNOkmjHE",
+    authDomain: "react-vm.firebaseapp.com",
+    databaseURL: "https://react-vm.firebaseio.com",
+    projectId: "react-vm",
+    storageBucket: "",
+    messagingSenderId: "881199988307"
+  };
+  firebase.initializeApp(config);
+</script>
