@@ -1,13 +1,18 @@
 import React from 'react';
+import { firebaseAuth } from '../lib/firebase';
+
+const INITIAL_STATE = {
+    name: '',
+    email: '',
+    password: '',
+    registerError: '',
+    registerSuccess: ''
+};
 
 class Signup extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            name: '',
-            email: '',
-            password: ''
-        }
+        this.state = { ...INITIAL_STATE };
         this.handleChange = this.handleChange.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
     }
@@ -15,11 +20,22 @@ class Signup extends React.Component {
     handleChange(event) {
         this.setState({
             [event.target.name]: event.target.value
-        })
+        });
     }
 
     handleSubmit(event) {
-        console.log(this.state.user);
+        firebaseAuth.createUser(this.state.email, this.state.password)
+            .then(authUser => {
+                this.setState(() => ({ ...INITIAL_STATE }));
+                this.setState({
+                    registerSuccess: 'Registered Successfully'
+                })
+            })
+            .catch(error => {
+                this.setState({
+                    registerError: error.message
+                });
+            });
         event.preventDefault();
     }
 
@@ -27,6 +43,8 @@ class Signup extends React.Component {
         return (
             <div>
                 <h1>Sign up</h1>
+                <p>{ this.state.registerError }</p>
+                <p>{ this.state.registerSuccess }</p>
                 <form onSubmit={this.handleSubmit}>
                     <div>
                         <label>Name: </label>
