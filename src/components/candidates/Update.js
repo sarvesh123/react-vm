@@ -6,7 +6,9 @@ class Update extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            name: '',
+            user: {
+                name: ''
+            },
             inputDisabled: true,
             message: ''
         }
@@ -18,7 +20,9 @@ class Update extends Component {
         const candidateKey = this.props.match.params.id;
         firebaseDatabase.ref('candidates/' + candidateKey).on('value', (snapshot) => {
             this.setState({
-                name: snapshot.val().name,
+                user: {
+                    name: snapshot.val().name
+                },
                 inputDisabled: false
             })
         })
@@ -30,14 +34,18 @@ class Update extends Component {
 
     handleChange(event) {
         this.setState({
-            [event.target.name]: event.target.value
+            user: {
+                [event.target.name]: event.target.value
+            }
         })
     }
 
     handleSubmit(event) {
-        firebaseDatabase.ref('/candidates/' + this.props.match.params.id).update(this.state, (callback) => {
+        firebaseDatabase.ref('/candidates/' + this.props.match.params.id).update(this.state.user, (callback) => {
             this.setState({
-                name: '',
+                user: {
+                    name: ''
+                },
                 message: 'Update Successfull'
             })
         })
@@ -46,9 +54,9 @@ class Update extends Component {
 
     render() {
         const disableElem = this.state.inputDisabled ? (
-            <input type="text" name="name" value={this.state.name} onChange={this.handleChange} disabled/>
+            <input type="text" name="name" value={this.state.user.name} onBlur={this.handleChange} onChange={this.handleChange} disabled/>
         ) : (
-            <input type="text" name="name" value={this.state.name} onChange={this.handleChange} />
+            <input type="text" name="name" value={this.state.user.name} onBlur={this.handleChange} onChange={this.handleChange} />
         );
         return (
             <div>

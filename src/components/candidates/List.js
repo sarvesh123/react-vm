@@ -9,7 +9,8 @@ class Candidates extends Component {
         super(props);
         this.state = {
             candidates: [],
-            message: ''
+            message: '',
+            deleted: false
         }
         this.deleteCandidate = this.deleteCandidate.bind(this)
     }
@@ -34,10 +35,12 @@ class Candidates extends Component {
                 message: message
             })
         });
-    }
-
-    componentWillUnmount() {
-        console.log('List UnMount')
+        if (localStorage.getItem('deleted')) {
+            this.setState({
+                deleted: 'The candidate was deleted'
+            })
+            localStorage.removeItem('deleted')
+        }
     }
 
     deleteCandidate(elem) {
@@ -51,10 +54,11 @@ class Candidates extends Component {
     }
 
     render() {
-        const { candidates, message } = this.state;
+        const { candidates, message, deleted } = this.state;
         return (
             <div>
-                {message}
+                <p>{deleted}</p>
+                <p>{message}</p>
                 <ul>{candidates.map((candidate) => {
                     return <Candidate key={candidate.key} candidate={candidate} />
                     })}

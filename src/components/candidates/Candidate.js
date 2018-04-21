@@ -7,6 +7,7 @@ class Candidate extends Component {
             <li>
                 {candidate.value}&nbsp;
                 <a href={'/candidates/update/' + candidate.key}>Update</a>
+                <a href={'/candidates/delete/' + candidate.key}>Delete</a>
             </li>
         )
     }

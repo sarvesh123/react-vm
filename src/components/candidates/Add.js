@@ -27,6 +27,10 @@ class Add extends Component {
         event.preventDefault();
     }
 
+    handleFocus(event) {
+        console.log(event)
+    }
+
     render() {
         return (
             <div>
@@ -34,7 +38,7 @@ class Add extends Component {
                 <form onSubmit={this.handleSubmit}>
                     <div>
                         <label>Name:</label>
-                        <input type="text" name="name" value={this.state.name} onChange={this.handleChange} />
+                        <input type="text" name="name" value={this.state.name} onBlur={this.handleChange} onChange={this.handleChange} required />
                     </div>
                     <input type="submit" value="ADD" />
                 </form>
